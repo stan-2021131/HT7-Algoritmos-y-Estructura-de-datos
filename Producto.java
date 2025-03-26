@@ -9,14 +9,16 @@ public class Producto {
     private ArrayList<Integer> cantidadXtalla;
 
     public Producto() {
+        this.tallas = new ArrayList<>();
+        this.cantidadXtalla = new ArrayList<>();
     }
 
-    public Producto(String SKU, String nombre, String descripcion, ArrayList<String> tallas, ArrayList<Integer> cantidadXtalla) {
+    public Producto(String SKU, String nombre, String descripcion) {
         this.SKU = SKU;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.tallas = tallas;
-        this.cantidadXtalla = cantidadXtalla;
+        this.tallas = new ArrayList<>();
+        this.cantidadXtalla = new ArrayList<>();
     }
 
     public String getSKU() {
@@ -68,5 +70,8 @@ public class Producto {
         return "SKU: " + SKU + "\nNombre: " + nombre + "\nDescripcion: " + descripcion + "\nTallas: " + tallasStr;
     }
 
-    
+    public String ruta(){
+        String ruta = "SKU: " + this.SKU + " Nombre: " + this.nombre;
+        return ruta;
+    }
 }
