@@ -1,5 +1,4 @@
 
-import java.util.ArrayList;
 
 public class BinaryTree<K extends Comparable<K>, V>{
     private Node<K, V> parent;
@@ -27,48 +26,35 @@ public class BinaryTree<K extends Comparable<K>, V>{
         if(parent == null){
             parent = new Node<>(key, value); return;}
         int result = this.parent.compareTo(key);
-        switch (result) {
-            case -1 -> {
-                if(this.right == null){
-                    Node<K,V> newNode = new Node<>(key, value);
-                    this.right = new BinaryTree<>(newNode);
-                }else{
-                    this.right.insert(key, value);
-                }
-            }
-            case 1 -> {
-                if(this.left == null){
-                    Node<K,V> newNode = new Node<>(key, value);
-                    this.left = new BinaryTree<>(newNode);
-                }else{
-                    this.left.insert(key, value);
-                }
-            }
-            default -> throw new Exception("La clave ya existe dentro del árbol");
+        if(result < 0) {
+            if(this.right == null)this.right = new BinaryTree<>(new Node<>(key, value));
+            else this.right.insert(key, value);
+        } 
+        else if(result > 0) {
+            if(this.left == null) this.left = new BinaryTree<>(new Node<>(key, value));
+            else this.left.insert(key, value);
         }
+        else throw new Exception("La clave '" + key + "' ya existe dentro del árbol");
     }
 
-    public BinaryTree<K, V> search(K key, ArrayList<V> route) throws Exception{
+    public BinaryTree<K, V> search(K key) throws Exception{
         if(this.parent == null) return null;
         if(this.parent.getKey().compareTo(key) == 0) return this;
         else{
-            if(route != null) route.add(this.parent.getValue());
             int result = this.parent.getKey().compareTo(key);
-            switch (result) {
-                case -1 -> {
-                    if(this.right.getParent().getKey().compareTo(key)==0) return this.right;
-                    else return this.right != null ? this.right.search(key, route) : null;
-                }
-                case 1 -> {
-                    if(this.left.getParent().getKey().compareTo(key)==0) return this.left;
-                    else return this.left != null ? this.left.search(key, route) : null;
-                }
-                default -> throw new Exception("Valor no encontrado dentro del árbol");
+            if(result < 0) {
+                if(this.right.getParent().getKey().compareTo(key)==0) return this.right;
+                else return this.right != null ? this.right.search(key) : null;
+            } 
+            else if(result > 0) {
+                if(this.left.getParent().getKey().compareTo(key)==0) return this.left;
+                else return this.left != null ? this.left.search(key) : null;
             }
+            else throw new Exception("Valor no encontrado dentro del árbol");
         }
     }
 
     public boolean contains(K key) throws Exception{
-        return search(key, null) != null;
+        return search(key) != null;
     }
 }
