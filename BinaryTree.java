@@ -1,5 +1,13 @@
 
+import java.util.ArrayList;
 
+
+/**
+ * Implementación de un árbol binario de búsqueda genérico.
+ * 
+ * @param <K> Tipo de la clave, debe implementar Comparable
+ * @param <V> Tipo del valor asociado a la clave
+ */
 public class BinaryTree<K extends Comparable<K>, V>{
     private Node<K, V> parent;
     private BinaryTree<K, V> left = null;
@@ -22,6 +30,13 @@ public class BinaryTree<K extends Comparable<K>, V>{
     public Node<K, V> getParent() {return parent;}
 
 
+    /**
+     * Inserta un nuevo par clave-valor en el árbol.
+     * 
+     * @param key   Clave del nuevo nodo
+     * @param value Valor asociado a la clave
+     * @throws Exception Si la clave ya existe en el árbol
+     */
     public void insert(K key, V value) throws Exception{
         if(parent == null){
             parent = new Node<>(key, value); return;}
@@ -37,23 +52,44 @@ public class BinaryTree<K extends Comparable<K>, V>{
         else throw new Exception("La clave '" + key + "' ya existe dentro del árbol");
     }
 
+    /**
+     * Busca un nodo en el árbol por su clave.
+     * 
+     * @param key Clave a buscar
+     * @return Árbol cuya raíz contiene la clave buscada, o null si no se encuentra
+     * @throws Exception Si ocurre un error durante la búsqueda
+     */
     public BinaryTree<K, V> search(K key) throws Exception{
         if(this.parent == null) return null;
-        if(this.parent.getKey().compareTo(key) == 0) return this;
-        else{
-            int result = this.parent.getKey().compareTo(key);
-            if(result < 0) {
-                if(this.right.getParent().getKey().compareTo(key)==0) return this.right;
-                else return this.right != null ? this.right.search(key) : null;
-            } 
-            else if(result > 0) {
-                if(this.left.getParent().getKey().compareTo(key)==0) return this.left;
-                else return this.left != null ? this.left.search(key) : null;
-            }
-            else throw new Exception("Valor no encontrado dentro del árbol");
-        }
+        int result = this.parent.getKey().compareTo(key);
+        if (result == 0) return this;
+        else if (result < 0) return this.right != null ? this.right.search(key) : null;
+        else return this.left != null ? this.left.search(key) : null;
     }
 
+    /**
+     * Obtiene una lista de valores en orden (in-order traversal).
+     * 
+     * @param node   Nodo raíz del subárbol a recorrer
+     * @param result Lista donde se almacenarán los resultados
+     * @return Lista de valores en orden
+     */
+    public ArrayList<V> getInOrder(BinaryTree<K, V> node, ArrayList<V> result){
+        if(node != null && node.getParent() != null){
+            getInOrder(node.getLeft(), result);
+            result.add(node.getParent().getValue());
+            getInOrder(node.getRight(), result);
+        }
+        return result;
+    }
+
+    /**
+     * Verifica si el árbol contiene una clave específica.
+     * 
+     * @param key Clave a buscar
+     * @return true si la clave existe en el árbol, false en caso contrario
+     * @throws Exception Si ocurre un error durante la búsqueda
+     */
     public boolean contains(K key) throws Exception{
         return search(key) != null;
     }
