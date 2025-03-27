@@ -17,6 +17,12 @@ public class Node<K extends Comparable<K>, V> implements Comparable<K>{
     public void setKey(K key) {this.key = key;}
     public void setValue(V value) {this.value = value;}
 
+    /**
+     * Compara este nodo con otra clave.
+     * 
+     * @param otherKey Otra clave a comparar
+     * @return Valor negativo si esta clave es menor, positivo si es mayor, 0 si son iguales
+     */
     @Override
     public int compareTo(K otherKey) {
         if (this.key instanceof String && otherKey instanceof String) {

@@ -1,6 +1,9 @@
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa un producto con sus atributos básicos y tallas disponibles.
+ */
 public class Producto {
     private String SKU;
     private String nombre;
@@ -61,6 +64,11 @@ public class Producto {
         this.cantidadXtalla = cantidadXtalla;
     }
 
+    /**
+     * Devuelve una representación en string del producto con todos sus detalles.
+     * 
+     * @return String con SKU, nombre, descripción y tallas disponibles
+     */
     @Override
     public String toString() {
         String tallasStr = "";
@@ -70,6 +78,11 @@ public class Producto {
         return "SKU: " + SKU + "\nNombre: " + nombre + "\nDescripcion: " + descripcion + "\nTallas: " + tallasStr;
     }
 
+    /**
+     * Devuelve una representación resumida del producto (SKU y nombre).
+     * 
+     * @return String con SKU y nombre del producto
+     */
     public String ruta(){
         String ruta = "SKU: " + this.SKU + " Nombre: " + this.nombre;
         return ruta;
